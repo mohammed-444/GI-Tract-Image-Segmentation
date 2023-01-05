@@ -4,6 +4,14 @@ from keras.losses import binary_crossentropy
 from keras.models import Model
 from keras.layers import Input, Conv2D, MaxPooling2D, UpSampling2D, concatenate, Conv2DTranspose, BatchNormalization, Dropout, Lambda
 from keras import backend as K
+# import segmentation_models
+from segmentation_models import Unet
+from segmentation_models import get_preprocessing
+from segmentation_models.losses import bce_jaccard_loss,bce_dice_loss,cce_dice_loss,cce_jaccard_loss ,categorical_focal_dice_loss,categorical_focal_jaccard_loss,jaccard_loss,dice_loss
+from segmentation_models.metrics import iou_score,f1_score,f2_score,precision,recall
+import segmentation_models as sm
+sm.set_framework('tf.keras')
+sm.framework()
 
 
 def dice_coef(y_true, y_pred, smooth=1):
