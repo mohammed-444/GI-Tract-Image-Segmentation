@@ -70,13 +70,14 @@ if __name__ == "__main__":
 
     Inspection, Real_masks, BoxPlot = st.tabs(["Inspection", "Real Masks", "Model History"])
     #Inspection.subheader("real masks")
-    with Inspection.container(): 
-        st.write("## Real masks")
-        #Inspect_data(df_train)
+    if read_data:
+        with Inspection.container(): 
+            st.write("## Real masks")
+            #Inspect_data(df_train)
     
     #Visuals.subheader("predicted masks")
-    with Real_masks.container():
-        st.write("## Predicted masks")
+        with Real_masks.container():
+            st.write("## Predicted masks")
         #model = tf.keras.models.load_model('Models\model0_nocompile.h5', compile = False)
         #model.compile(optimizer='adam', loss=bce_dice_loss, metrics=[dice_coef,f1_score,f2_score,precision,recall,iou_score])
         #Plot_predicte_masks(model,df_train,valid_ids)
