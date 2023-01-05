@@ -85,13 +85,20 @@ if __name__ == "__main__":
         #st.write("## Model History")
         history_1 = pd.read_csv('csv/history_effientNet.csv')
         history_2 = pd.read_csv('csv/history_omar.csv')
+        history_3 = pd.read_csv('csv/history1.csv')
         history_2.rename(columns={'jacard_coef': 'dice_coef', 'val_jacard_coef': 'val_dice_coef'}, inplace=True)
         
         col1, col2 = st.columns(2)
         with col1:
-            hist = st.selectbox("Model History", ['effientNet', 'U-Net'])
+            hist = st.selectbox("Model History", ['effientNet', 'U-Net', 'MOdel2'])
         with col2:
-            mode = st.selectbox("Plot Mode", list(history_1.columns[1:8]))
+            if hist == 'effientNet':
+                mode = st.selectbox("Plot Mode", list(history_1.columns[1:8]))
+            elif hist == 'U-Net':
+                mode = st.selectbox("Plot Mode", list(history_2.columns[1:8]))
+            elif hist == 'MOdel2':
+                mode = st.selectbox("Plot Mode", list(history_3.columns[1:4]))
+                
         
         
         show_df = st.sidebar.checkbox("Show Dataframe", False)
@@ -119,6 +126,8 @@ if __name__ == "__main__":
             animate_plot(history_1, theme, Plot_mode=mode , y_range_loss_range=1, delay=100, Animate=animation, SHOW_GRID=grid)
         elif hist  == 'U-Net':
             animate_plot(history_2, theme, Plot_mode=mode , y_range_loss_range=1, delay=100, Animate=animation, SHOW_GRID=grid)
+        elif hist == 'MOdel2':
+            animate_plot(history_3, theme, Plot_mode=mode , y_range_loss_range=1, delay=100, Animate=animation, SHOW_GRID=grid, title = mode + ' after 25 epochs')
         
 
         

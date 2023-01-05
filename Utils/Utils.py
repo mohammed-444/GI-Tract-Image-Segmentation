@@ -11,8 +11,8 @@ def animate_plot(
     delay=50,
     Animate=True,
     streamlit=True,
-    SHOW_GRID = True,
-     
+    SHOW_GRID=True,
+    title=None,
 ):
     trace1_col = Plot_mode
     trace2_col = "val_" + Plot_mode
@@ -32,10 +32,10 @@ def animate_plot(
     hisotry[trace2_col] = hisotry[trace2_col].apply(lambda x: round(x, 4))
 
     trace1 = go.Scatter(
-        x=hisotry[hisotry.columns[0]] , y=hisotry[trace1_col], name='train_'+trace1_col
+        x=hisotry[hisotry.columns[0]], y=hisotry[trace1_col], name="train_" + trace1_col
     )
     trace2 = go.Scatter(
-        x=hisotry[hisotry.columns[0]] , y=hisotry[trace2_col], name=trace2_col
+        x=hisotry[hisotry.columns[0]], y=hisotry[trace2_col], name=trace2_col
     )
     if Animate:
         fig = go.Figure(
@@ -43,7 +43,8 @@ def animate_plot(
             layout=go.Layout(
                 # template='plotly_dark',
                 xaxis=dict(
-                    range=[1, hisotry[hisotry.columns[0]].max()], autorange=False, 
+                    range=[1, hisotry[hisotry.columns[0]].max()],
+                    autorange=False,
                 ),
                 yaxis=dict(range=[0, y_range_max_range], autorange=False),
                 # * buttons
@@ -110,29 +111,46 @@ def animate_plot(
         fig = go.Figure(
             data=[trace1, trace2],
             layout=go.Layout(
-                xaxis=dict(range=[1, hisotry[hisotry.columns[0]]], autorange=False),
+                xaxis=dict(
+                    range=[1, hisotry[hisotry.columns[0]].max()],
+                    autorange=False,
+                ),
                 yaxis=dict(range=[0, y_range_max_range], autorange=False),
                 # * buttons
                 showlegend=True,
                 hovermode="x unified",
             ),
         )
-        
 
     # fig.update_layout(xaxis=dict(rangeselector = dict(font = dict( color = "black"))))
     # update button color
 
     # fig.layout.update(template='plotly_dark')
-    fig.update_layout(
-        title=Plot_mode+ ' after Transfer learning', xaxis_title="Epochs", yaxis_title=Plot_mode, title_x=0.5
-    )
+    # fig.update_layout(
+    #     xaxis_title="Epochs",
+    #     yaxis_title=Plot_mode,
+    #     title_x=0.5,
+    # )
     # * change xtick
+    if title == None:
+        fig.update_layout(
+            title=Plot_mode + " after Transfer learning",
+            xaxis_title="Epochs",
+            yaxis_title=Plot_mode,
+            title_x=0.5,
+        )
+    else:
+        fig.update_layout(
+            title=title,
+            xaxis_title="Epochs",
+            yaxis_title=Plot_mode,
+            title_x=0.5,
+        )
     fig.update_xaxes(tickfont=dict(size=10))
     fig.update_layout(xaxis=dict(tickmode="linear", tick0=0, dtick=1))
     fig.update_layout(yaxis=dict(tickmode="linear", tick0=0, dtick=0.1))
-    
-    fig.update_layout(xaxis=dict(showgrid=SHOW_GRID), yaxis=dict(showgrid=SHOW_GRID))
 
+    fig.update_layout(xaxis=dict(showgrid=SHOW_GRID), yaxis=dict(showgrid=SHOW_GRID))
 
     fig.update_layout(template=theme)
 
