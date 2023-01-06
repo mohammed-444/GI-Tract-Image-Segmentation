@@ -68,37 +68,26 @@ if __name__ == "__main__":
 #     unsafe_allow_html=True,
 # )
 
-    Inspection, Real_masks, BoxPlot = st.tabs(["Inspection", "Real Masks", "Model History"])
+    Model_hist, Inspection, Real_masks,= st.tabs(["Model History","Inspection", "Real Masks" ])
     #Inspection.subheader("real masks")
-    if read_data:
-        with Inspection.container(): 
-            st.write("## Real masks")
-            #Inspect_data(df_train)
-    
-    #Visuals.subheader("predicted masks")
-        with Real_masks.container():
-            st.write("## Predicted masks")
-        #model = tf.keras.models.load_model('Models\model0_nocompile.h5', compile = False)
-        #model.compile(optimizer='adam', loss=bce_dice_loss, metrics=[dice_coef,f1_score,f2_score,precision,recall,iou_score])
-        #Plot_predicte_masks(model,df_train,valid_ids)
-    
-    with BoxPlot.container():
+
+    with Model_hist.container():
         #st.write("## Model History")
         history_1 = pd.read_csv('csv/history_effientNet.csv')
-        history_2 = pd.read_csv('csv/history_omar.csv')
-        history_3 = pd.read_csv('csv/history1.csv')
-        history_2.rename(columns={'jacard_coef': 'dice_coef', 'val_jacard_coef': 'val_dice_coef'}, inplace=True)
+        # history_2 = pd.read_csv('csv/history_omar.csv')
+        history_2 = pd.read_csv('csv/history1.csv')
+        # history_2.rename(columns={'jacard_coef': 'dice_coef', 'val_jacard_coef': 'val_dice_coef'}, inplace=True)
         
         col1, col2 = st.columns(2)
         with col1:
-            hist = st.selectbox("Model History", ['effientNet', 'U-Net', 'MOdel2'])
+            hist = st.selectbox("Model History", ['effientNet', 'U-Net'])
         with col2:
             if hist == 'effientNet':
                 mode = st.selectbox("Plot Mode", list(history_1.columns[1:8]))
             elif hist == 'U-Net':
-                mode = st.selectbox("Plot Mode", list(history_2.columns[1:8]))
-            elif hist == 'MOdel2':
-                mode = st.selectbox("Plot Mode", list(history_3.columns[1:4]))
+            #     mode = st.selectbox("Plot Mode", list(history_2.columns[1:8]))
+            # elif hist == 'MOdel2':
+                mode = st.selectbox("Plot Mode", list(history_2.columns[1:4]))
                 
         
         
@@ -126,9 +115,23 @@ if __name__ == "__main__":
         if hist == 'effientNet':
             animate_plot(history_1, theme, Plot_mode=mode , y_range_loss_range=1, delay=100, Animate=animation, SHOW_GRID=grid)
         elif hist  == 'U-Net':
-            animate_plot(history_2, theme, Plot_mode=mode , y_range_loss_range=1, delay=100, Animate=animation, SHOW_GRID=grid)
-        elif hist == 'MOdel2':
-            animate_plot(history_3, theme, Plot_mode=mode , y_range_loss_range=1, delay=100, Animate=animation, SHOW_GRID=grid, title = mode + ' after 25 epochs')
+            animate_plot(history_2, theme, Plot_mode=mode , y_range_loss_range=1, delay=100, Animate=animation, SHOW_GRID=grid, title = mode + ' after 25 epochs')
+        # elif hist == 'MOdel2':
+        #     animate_plot(history_3, theme, Plot_mode=mode , y_range_loss_range=1, delay=100, Animate=animation, SHOW_GRID=grid, title = mode + ' after 25 epochs')
+        
+        if read_data:
+            with Inspection.container(): 
+                st.write("## Real masks")
+                fig = Inspect_data(df_train)
+                st.pyplot(fig)
+    
+    #Visuals.subheader("predicted masks")
+            with Real_masks.container():
+                st.write("## Predicted masks")
+                model = tf.keras.models.load_model('Models\model0_nocompile.h5', compile = False)
+                model.compile(optimizer='adam', loss=bce_dice_loss, metrics=[dice_coef,f1_score,f2_score,precision,recall,iou_score])
+                fig = Plot_predicte_masks(model,df_train,valid_ids)
+                st.pyplot(fig)
         
 
         

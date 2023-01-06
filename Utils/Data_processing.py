@@ -136,7 +136,7 @@ def data_gene(df_train, train_ids, valid_ids, test_ids):
         val_generator2,
     )
 
-def Inspect_data(df_train):
+def Inspect_data(df_train, num = 6, show_legend_every = 3):
     # SAMPLES
     # BATCH_SIZE which we are sure that they have mask for large_bowel
     Masks = list(df_train[df_train['large_bowel']!=''].sample(BATCH_SIZE).index)
@@ -151,7 +151,7 @@ def Inspect_data(df_train):
 
     # Visualizing
     fig = plt.figure(figsize=(10, 25), facecolor='slategrey')
-    gs = gridspec.GridSpec(nrows=6, ncols=2)
+    gs = gridspec.GridSpec(nrows=num, ncols=2)
     colors = ['red','green','blue']
     labels = ["Large Bowel", "Small Bowel", "Stomach"]
     patches = [ mpatches.Patch(color=colors[i], label=f"{labels[i]}") for i in range(len(labels))]
@@ -160,7 +160,7 @@ def Inspect_data(df_train):
     cmap2 = mpl.colors.ListedColormap(colors[1])
     cmap3= mpl.colors.ListedColormap(colors[2])
 
-    for i in range(6):
+    for i in range(num):
         images, mask = View_batches[i]
         sample_img=images[0,:,:,0]
         mask1=mask[0,:,:,0]
@@ -171,9 +171,9 @@ def Inspect_data(df_train):
         im = ax0.imshow(sample_img, cmap='bone')
 
         ax1 = fig.add_subplot(gs[i, 1])
-        if i==0:
-            ax0.set_title("Image", fontsize=15, weight='bold', y=1.02, color = 'black')
-            ax1.set_title("Mask", fontsize=15, weight='bold', y=1.02, color = 'black')
+        if i%show_legend_every == 0:
+            # ax0.set_title("Image", fontsize=15, weight='bold', y=1.02, color = 'black')
+            # ax1.set_title("Mask", fontsize=15, weight='bold', y=1.02, color = 'black')
             plt.legend(handles=patches, bbox_to_anchor=(1.1, 0.65), loc=2, borderaxespad=0.4,fontsize = 14,title='Mask Labels', title_fontsize=14, edgecolor="black",  facecolor='black', )
 
         l0 = ax1.imshow(sample_img, cmap='bone')
@@ -181,25 +181,23 @@ def Inspect_data(df_train):
         l2 = ax1.imshow(np.ma.masked_where(mask2== False,  mask2),cmap=cmap2, alpha=1)
         l3 = ax1.imshow(np.ma.masked_where(mask3== False,  mask3),cmap=cmap3, alpha=1)
         _ = [ax.set_axis_off() for ax in [ax0,ax1]]
-        # ax0.set_title("Image", fontsize=15, weight='bold', y=1.02, color= 'black')
-        # ax1.set_title("Mask", fontsize=15, weight='bold', y=1.02, color= 'black')
+        ax0.set_title("Image", fontsize=15, weight='bold', y=1.02, color= 'black')
+        ax1.set_title("Mask", fontsize=15, weight='bold', y=1.02, color= 'black')
         colors = [im.cmap(im.norm(1)) for im in [l1,l2, l3]]
+    return fig
         
-        
-    # fig.tight_layout()
-    #fig.figure(facecolor='black')
-    st.pyplot(fig)
     
     
-def Plot_predicte_masks(model,df_train,valid_ids):
-    start = 20
-    end = 32 
+    
+def Plot_predicte_masks(model,df_train,valid_ids ,start = 20, end = 32, show_legend_every = 3):
+    # start = 20
+    # end = 32 
     pred_batches = DataGenerator(df_train[df_train.index.isin(valid_ids[start:end])],batch_size = 1,shuffle=True)
     preds = model.predict_generator(pred_batches,verbose=1)
 
     Threshold = 0.1
     # Visualizing
-    fig = plt.figure(figsize=(10, 25))
+    fig = plt.figure(figsize=(10, 25), facecolor='slategrey')
     gs = gridspec.GridSpec(nrows=end-start, ncols=3)
     colors = ['yellow','green','red']
     labels = ["Large Bowel", "Small Bowel", "Stomach"]
@@ -208,6 +206,7 @@ def Plot_predicte_masks(model,df_train,valid_ids):
     cmap1 = mpl.colors.ListedColormap(colors[0])
     cmap2 = mpl.colors.ListedColormap(colors[1])
     cmap3= mpl.colors.ListedColormap(colors[2])
+
 
     for i in range(end-start):
         images, mask = pred_batches[i]
@@ -242,12 +241,11 @@ def Plot_predicte_masks(model,df_train,valid_ids):
         l1 = ax2.imshow(np.ma.masked_where(predict1== False,  predict1),cmap=cmap1, alpha=1)
         l2 = ax2.imshow(np.ma.masked_where(predict2== False,  predict2),cmap=cmap2, alpha=1)
         l3 = ax2.imshow(np.ma.masked_where(predict3== False,  predict3),cmap=cmap3, alpha=1)
-    
-
+        if i%show_legend_every == 0:
+            plt.legend(handles=patches, bbox_to_anchor=(1.1, 0.65), loc=2, borderaxespad=0.4,fontsize = 12,title='Mask Labels', title_fontsize=12, edgecolor="black",  facecolor='black' )
         _ = [ax.set_axis_off() for ax in [ax0,ax1,ax2]]
         colors = [im.cmap(im.norm(1)) for im in [l1,l2, l3]]
-        plt.legend(handles=patches, bbox_to_anchor=(1.1, 0.65), loc=2, borderaxespad=0.4,fontsize = 12,title='Mask Labels', title_fontsize=12, edgecolor="black",  facecolor='#c5c6c7' )
-        st.pyplot(fig)
+    return fig
         
         
         

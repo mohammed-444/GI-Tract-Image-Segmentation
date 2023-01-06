@@ -5,7 +5,7 @@ import streamlit as st
 
 def animate_plot(
     hisotry,
-    theme,
+    theme = 'plotly_dark',
     Plot_mode="dice_coef",
     y_range_loss_range=1,
     delay=50,
@@ -13,11 +13,11 @@ def animate_plot(
     streamlit=True,
     SHOW_GRID=True,
     title=None,
+    autorange = False,
 ):
     trace1_col = Plot_mode
     trace2_col = "val_" + Plot_mode
     hisotry = pd.DataFrame((hisotry.copy()))
-    print(type(hisotry))
     if hisotry.columns[0] != "epoch":
         hisotry[hisotry.columns[0]] = hisotry[hisotry.columns[0]].apply(lambda x: x + 1)
         hisotry.rename(columns={hisotry.columns[0]: "epoch"}, inplace=True)
@@ -27,7 +27,6 @@ def animate_plot(
         y_range_max_range = max(hisotry[trace1_col].max(), hisotry[trace2_col].max())
     else:
         y_range_max_range = y_range_loss_range
-    print(type(hisotry))
     hisotry[trace1_col] = hisotry[trace1_col].apply(lambda x: round(x, 4))
     hisotry[trace2_col] = hisotry[trace2_col].apply(lambda x: round(x, 4))
 
@@ -149,9 +148,9 @@ def animate_plot(
     fig.update_xaxes(tickfont=dict(size=10))
     fig.update_layout(xaxis=dict(tickmode="linear", tick0=0, dtick=1))
     fig.update_layout(yaxis=dict(tickmode="linear", tick0=0, dtick=0.1))
-
+    if autorange == True:
+        fig.update_layout(yaxis= dict(autorange = True))
     fig.update_layout(xaxis=dict(showgrid=SHOW_GRID), yaxis=dict(showgrid=SHOW_GRID))
-
     fig.update_layout(template=theme)
 
     if streamlit:
