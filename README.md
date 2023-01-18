@@ -8,19 +8,19 @@ This is our submission for the UW-Madison GI Tract Image Segmentation Competitio
 - [**UW-Madison GI Tract Image Segmentation Competition**](#uw-madison-gi-tract-image-segmentation-competition)
   - [**Introduction**](#introduction)
   - [**Table Of Contents**](#table-of-contents)
-  - [Data](#data)
+  - [**Data**](#data)
   - [**Preprocessing**](#preprocessing)
   - [**Model creation**](#model-creation)
     - [Our U-Net Model](#our-u-net-model)
     - [**EFFICIENT Net B7 , Pre-trained Model**](#efficient-net-b7--pre-trained-model)
   - [Visualizing Results](#visualizing-results)
   - [Reproducing Results](#reproducing-results)
-  - [Additional Resources](#additional-resources)
+  - [Resources](#resources)
 
-## Data
+## **Data**
   - The data can be found on the [Data Tab](https://www.kaggle.com/competitions/uw-madison-gi-tract-image-segmentation/data) on kaggle competition page.
 
-  - This Data in the competition involves segmenting organs cells in images using RLE-encoded masks and 16-bit grayscale PNG format. The test set is entirely unseen and consists of roughly 50 cases with varying numbers of days and slices. The goal is to generalize to both partially and wholly unseen cases.
+  - This competition involves segmenting organs cells in images using RLE-encoded masks and 16-bit grayscale PNG format. The test set is entirely unseen and consists of roughly 50 cases with varying numbers of days and slices. The goal is to generalize to both partially and wholly unseen cases.
 ## **Preprocessing**
   - Each slice were connected to it’s available masks that were found in the Train.csv
   - A New generator `DataGenerator1D()` was  inherited from `tf.keras.utils.Sequence` class, where we adjusted the `__init__()` for the use of our data
@@ -74,13 +74,13 @@ check our [Results](Results.ipynb) notebook to see the results of our model
 To reproduce our results, you will need to install the following dependencies:
 - Python
 - TensorFlow 
-- Numpy
-- segmentation-models
+- plotly, matplotlib
+- segmentation_models
 
-we made it easier by creating Util folder that contains all the function needed to reprodude the results
+we made it easier by creating Utils folder that contains all the function needed to reprodude the results
 
 
-## Additional Resources
+## Resources
 
 - [UW-Madison GI Tract Image Segmentation Competition](https://github.com/uw-madison-github/gi-tract-image-segmentation-competition)
 - [Segmentation models](github.com/qubvel/segmentation_models)
