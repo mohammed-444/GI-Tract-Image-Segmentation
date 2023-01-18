@@ -8,6 +8,7 @@ This is our submission for the UW-Madison GI Tract Image Segmentation Competitio
 - [**UW-Madison GI Tract Image Segmentation Competition**](#uw-madison-gi-tract-image-segmentation-competition)
   - [**Introduction**](#introduction)
   - [**Table Of Contents**](#table-of-contents)
+  - [Data](#data)
   - [**Preprocessing**](#preprocessing)
   - [**Model creation**](#model-creation)
     - [Our U-Net Model](#our-u-net-model)
@@ -16,7 +17,10 @@ This is our submission for the UW-Madison GI Tract Image Segmentation Competitio
   - [Reproducing Results](#reproducing-results)
   - [Additional Resources](#additional-resources)
 
+## Data
+  - The data can be found on the [Data Tab](https://www.kaggle.com/competitions/uw-madison-gi-tract-image-segmentation/data) on kaggle competition page.
 
+  - This Data in the competition involves segmenting organs cells in images using RLE-encoded masks and 16-bit grayscale PNG format. The test set is entirely unseen and consists of roughly 50 cases with varying numbers of days and slices. The goal is to generalize to both partially and wholly unseen cases.
 ## **Preprocessing**
   - Each slice were connected to it’s available masks that were found in the Train.csv
   - A New generator `DataGenerator1D()` was  inherited from `tf.keras.utils.Sequence` class, where we adjusted the `__init__()` for the use of our data
