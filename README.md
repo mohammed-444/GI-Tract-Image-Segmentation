@@ -13,9 +13,9 @@ This is our submission for the UW-Madison GI Tract Image Segmentation Competitio
   - [**Model creation**](#model-creation)
     - [Our U-Net Model](#our-u-net-model)
     - [**EFFICIENT Net B7 , Pre-trained Model**](#efficient-net-b7--pre-trained-model)
-  - [Visualizing Results](#visualizing-results)
-  - [Reproducing Results](#reproducing-results)
-  - [Resources](#resources)
+  - [**Visualizing Results**](#visualizing-results)
+  - [**Reproducing Results**](#reproducing-results)
+  - [**Resources**](#resources)
 
 ## **Data**
   - The data can be found on the [Data Tab](https://www.kaggle.com/competitions/uw-madison-gi-tract-image-segmentation/data) on kaggle competition page.
@@ -66,10 +66,10 @@ This is our submission for the UW-Madison GI Tract Image Segmentation Competitio
     | **f2-score** | 0.8845 | **val_f2-score** | 0.6334 |
     ---
 
-## Visualizing Results
+## **Visualizing Results**
 check our [Results](Results.ipynb) notebook to see the results of our model 
 
-## Reproducing Results
+## **Reproducing Results**
 
 To reproduce our results, you will need to install the following dependencies:
 - Python
@@ -80,7 +80,7 @@ To reproduce our results, you will need to install the following dependencies:
 we made it easier by creating Utils folder that contains all the function needed to reprodude the results
 
 
-## Resources
+## **Resources**
 
 - [UW-Madison GI Tract Image Segmentation Competition](https://github.com/uw-madison-github/gi-tract-image-segmentation-competition)
 - [Segmentation models](github.com/qubvel/segmentation_models)
