@@ -84,7 +84,7 @@ we made it easier by creating Utils folder that contains all the function needed
 
 - [UW-Madison GI Tract Image Segmentation Competition](https://github.com/uw-madison-github/gi-tract-image-segmentation-competition)
 - [Segmentation models](github.com/qubvel/segmentation_models)
-- [Our Paper](Pdfs\FinalPaperSubmission.pdf)
+- [Our work Paper](Pdfs\FinalPaperSubmission.pdf)
 
 
 
